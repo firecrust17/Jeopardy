@@ -1,0 +1,14 @@
+<h1>Jeopardy!</h1>
+
+<h3>Hi, please enter the Names of players:</h3>
+
+<div class="row">
+    <div class="col-6 col-xs-12" *ngFor="let player of players; let i=index">
+        <input type="text" [(ngModel)]="player.name" placeholder="Player {{i+1}}">
+        <button *ngIf="i>1" (click)="remove_player(i)">Delete</button>
+    </div>
+</div>
+<button (click)="add_player()" [disabled]="players.length>9">Add Player</button>
+
+<input type="checkbox" name="shuffle" id="shuffle" [(ngModel)]="shuffle"> Shuffle
+<button class="btn btn-lg btn-primary mt-3" (click)="get_players()">Play!</button>

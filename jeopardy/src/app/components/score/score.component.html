@@ -1,0 +1,8 @@
+<div class="row">
+    <div class="col-3" *ngFor="let player of score_board;">
+        <div >
+            <!-- ng class for player with active turn -->
+            {{player.name}}: {{player.score}}
+        </div>
+    </div>
+</div>
