@@ -41,4 +41,8 @@ export class ScoreComponent implements OnInit {
     this.next_player_turn();
   }
 
+  get_current_player_name() {
+    return this.score_board[this.current_player_index]['name'];
+  }
+
 }

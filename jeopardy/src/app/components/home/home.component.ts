@@ -9,7 +9,22 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class HomeComponent implements OnInit {
 
+  max_players = 20;
   shuffle = true;
+  team_size:any = 0;
+  team_options = [
+    { "label": "No Teams", "value": 0 },
+    { "label": "1 Team", "value": 1 },
+    { "label": "2 Teams", "value": 2 },
+    { "label": "3 Teams", "value": 3 },
+    { "label": "4 Teams", "value": 4 },
+    { "label": "5 Teams", "value": 5 },
+    { "label": "6 Teams", "value": 6 },
+    { "label": "7 Teams", "value": 7 },
+    { "label": "8 Teams", "value": 8 },
+    { "label": "9 Teams", "value": 9 },
+    { "label": "10 Teams", "value": 10 },
+  ];
   players = [{
     "name": "",
     "score": 0
@@ -70,24 +85,50 @@ export class HomeComponent implements OnInit {
     if (final_players.length < 2) {
       alert('Atleast 2 players required');
     } else {
-      this._shared.globalPlayers = this.randomize_order(final_players, this.shuffle);
-      // console.log(this._shared.globalPlayers);
-      this._router.navigate(['./game']);
+      this.team_size = parseInt(this.team_size);
+
+      if(this.team_size != 0 && final_players.length < this.team_size){
+        alert('Team size cannot be greater than total players');
+      } else {
+        this._shared.globalPlayers = this.randomize_order_and_split_into_teams(final_players, this.shuffle);
+        // console.log(this._shared.globalPlayers);
+        this._router.navigate(['./game']);
+      }
     }
   }
 
-  randomize_order(final_players: any, shuffle: boolean) {
-    // TODO - Add randomize logic
+  randomize_order_and_split_into_teams(final_players: any, shuffle: boolean) {
     if (shuffle) {
       final_players = this.shuffleArray(final_players);
     }
-    
-    // first player from random order gets the first turn
-    for(var i=0; i<final_players.length; i++) {
-      final_players[i]['turn'] = false;
+
+    // split into teams
+    var final_teams:any = [];
+    if (this.team_size){
+      var index = 0;
+      for(var i=0; i<final_players.length; i++) {
+        if(!final_teams[index]) {
+          final_teams[index] = final_players[i];
+        } else {
+          final_teams[index]['name'] += ' + ' + final_players[i]['name'];
+        }
+
+        if (index+1 == this.team_size){
+          index = 0;
+        } else {
+          index += 1;
+        }
+      }
+    } else {
+      final_teams = final_players;
     }
-    final_players[0]['turn'] = true;
-    return final_players;
+
+    // first player from random order gets the first turn
+    for(var i=0; i<final_teams.length; i++) {
+      final_teams[i]['turn'] = false;
+    }
+    final_teams[0]['turn'] = true;
+    return final_teams;
   }
 
   shuffleArray(array: any) {

@@ -1,6 +1,14 @@
 <div class="row">
-    <div class="col-3" *ngFor="let player of score_board;">
-        <div >
+    <div class="col-6 h5 text-success">
+        <strong>Score Board</strong>
+    </div>
+    <div class="col-6">
+        <span class="float-right">
+            <strong>{{score_board[current_player_index]['name']}}'s Turn</strong>
+        </span>
+    </div>
+    <div class="col-3" *ngFor="let player of score_board; let i = index">
+        <div [ngClass]="current_player_index == i ? 'alert alert-primary border border-primary font-weight-bold': 'alert alert-info'">
             <!-- ng class for player with active turn -->
             {{player.name}}: {{player.score}}
         </div>

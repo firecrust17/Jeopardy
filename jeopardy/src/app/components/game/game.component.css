@@ -1,0 +1,23 @@
+.right_ans {
+    color: green;
+}
+.wrong_ans {
+    color: red;
+}
+.question-style-right {
+    background-color: rgb(203, 255, 192);
+    min-height: 60px;
+}
+.question-style-wrong {
+    background-color: #ffbdbd;
+    min-height: 60px;
+}
+.question-style-default {
+    background-color: rgb(224, 223, 223);
+    min-height: 60px;
+}
+.category-style {
+    background-color: #28a745;
+    color: white;
+    min-height: 60px;
+}

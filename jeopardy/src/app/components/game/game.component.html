@@ -1,16 +1,92 @@
-<div class="row">
-    <div class="col-2">
-        <button (click)="confirm_home()">HOME</button>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-2">
+            <div class="btn btn-success" (click)="confirm_home()">New Game</div>
+        </div>
+        <div class="col-10">
+            <app-score></app-score>
+        </div>
     </div>
-    <div class="col-10">
-        <app-score></app-score>
+    
+    <hr class="m-2">
+    
+    <div class="row">
+        <div class="col-12">
+            <!-- <app-questions></app-questions> -->
+            <div class="row">
+                <div class="col-2" *ngFor="let cat of question_bank">
+                    <div class="col-12 category-style card p-2 text-center h4">
+                        {{cat.category}}
+                    </div>
+                </div>
+                <div class="col-2" *ngFor="let cat of question_bank; let i=index;">
+                    <div class="col-12 p-0" *ngFor="let q of cat.questions; let j=index">
+                        <div class=" my-2 pointer card p-2" 
+                        [ngClass]="q.was_correct == null ? 'question-style-default zoom': (q.was_correct == true ?'question-style-right' : 'question-style-wrong')"
+                        (click)="show_question(i,j)">
+                            <span *ngIf="q.was_correct == null" class="text-center mt-2">
+                                {{q.points}}
+                            </span>
+                            <span *ngIf="q.was_correct != null" 
+                            [ngClass]="q.was_correct ? 'right_ans text-center mt-2' : 'wrong_ans text-center mt-2'">
+                                {{q.answered_by}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    
+    
+    
+    <!-- Modal -->
+    <div class="modal fade" id="currentQuestion">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-title h5" id="currentQuestionLabel">{{current_question.question}}</span>
+                    <span class="badge badge-success">{{question_bank[curr_cat_idx]['category']}}: {{current_question.points}}</span>
+                </div>
+                <div class="modal-body">
+                    
+    
+                    <div *ngIf="current_question.type == 'MCQ'">
+                        <div class="row">
+                            <div class="col-6" *ngFor="let option of current_question.choices">
+                                <div class="card alert pointer mt-3" 
+                                [ngClass]="!question_complete ? 'alert-secondary': (this.current_question.answer == option ? 'alert-success': 'alert-danger')"
+                                (click)="attempt(option)">
+                                    {{option}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-8">
+                                <div *ngIf="question_complete">
+                                    <div *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct']">
+                                        Hooray!! You got it right! :D
+                                    </div>
+                                    <div *ngIf="!question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct']">
+                                        Ohh oww... Wrong answer :(
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <!-- <button [disabled]="!current_question.answered_by || 1" class="btn btn-secondary" (click)="close_modal()">Close</button> -->
+                                <button [disabled]="!question_complete" class="btn btn-success float-right"
+                                (click)="close_modal()">Next</button>
+                            </div>
+                        </div>
+                    </div>
 
-<hr>
-
-<div class="row">
-    <div class="col-12">
-        <app-questions></app-questions>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
