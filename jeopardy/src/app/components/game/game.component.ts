@@ -31,11 +31,6 @@ export class GameComponent implements OnInit {
     
     // question_bank needs to be populated by service from DB - including globalQuestionBank
     this.question_bank = this._shared.globalQuestionBank;
-    this._shared.globalPlayers = [
-      {name: "A", score: 0, turn: true},
-      {name: "C", score: 0, turn: false},
-      {name: "B", score: 0, turn: false},
-    ];
     if(!this._shared.globalPlayers.length) {
       this._router.navigate(['./home']);
     }

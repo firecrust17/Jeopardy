@@ -6,13 +6,13 @@ import { Injectable } from '@angular/core';
 export class SharedService {
 
   constructor() { 
-    // temporary
-    this.globalPlayers = [
-      {name: "A", score: 0, turn: true},
-      {name: "C", score: 0, turn: false},
-      {name: "B", score: 0, turn: false},
-    ];
-    
+    // // temporary
+    // this.globalPlayers = [
+    //   {name: "A", score: 0, turn: true},
+    //   {name: "C", score: 0, turn: false},
+    //   {name: "B", score: 0, turn: false},
+    // ];
+
   }
 
   globalPlayers:any = [];
