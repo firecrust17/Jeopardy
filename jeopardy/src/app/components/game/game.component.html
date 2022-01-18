@@ -52,7 +52,8 @@
                     
     
                     <div *ngIf="current_question.type == 'MCQ'">
-                        <div class="row">
+                        <!-- unattempted -->
+                        <div class="row" *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] == null">
                             <div class="col-6" *ngFor="let option of current_question.choices">
                                 <div class="card alert pointer mt-3" 
                                 [ngClass]="!question_complete ? 'alert-secondary': (this.current_question.answer == option ? 'alert-success': 'alert-danger')"
@@ -61,26 +62,52 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- attempted -->
+                        <div class="row" *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] != null">
+                            <div class="col-6" *ngFor="let option of current_question.choices">
+                                <div class="card alert pointer mt-3" 
+                                [ngClass]="(this.current_question.answer == option ? 'alert-success': 'alert-danger')">
+                                    {{option}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-    
+                    
+                    <div class="text-center" *ngIf="_env.show_image && question_complete">
+                        <img *ngIf="is_yay" height="200px" src="../../../assets/images/arthur-happy.png" alt="yay">
+                        <img *ngIf="!is_yay" height="200px" src="../../../assets/images/arthur-sad.png" alt="nay">
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-8">
-                                <div *ngIf="question_complete">
+                                <div *ngIf="question_complete && !failed_attempt">
                                     <div *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct']">
                                         Hooray!! You got it right! :D
                                     </div>
                                     <div *ngIf="!question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct']">
-                                        Ohh oww... Wrong answer :(
+                                        Wrong answer. Better luck next time :(
                                     </div>
+                                </div>
+                                <div *ngIf="question_complete && failed_attempt">
+                                    <div *ngIf="!question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct']">
+                                        Ohh oww... Your time is up.. 
+                                    </div>
+                                </div>
+                                <div *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] == null && !question_complete">
+                                    {{time_left}} second(s) left
                                 </div>
                             </div>
                             <div class="col-4">
                                 <!-- <button [disabled]="!current_question.answered_by || 1" class="btn btn-secondary" (click)="close_modal()">Close</button> -->
                                 <button [disabled]="!question_complete" class="btn btn-success float-right"
+                                *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] == null"
                                 (click)="close_modal()">Next</button>
+                                <button class="btn btn-success float-right"
+                                *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] != null"
+                                (click)="close_modal()">Close</button>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EnvService } from 'src/app/services/env.service';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -9,12 +10,12 @@ import { SharedService } from 'src/app/services/shared.service';
 })
 export class HomeComponent implements OnInit {
 
-  max_players = 20;
+  max_players = 2;
   shuffle = true;
   team_size:any = 0;
   team_options = [
     { "label": "No Teams", "value": 0 },
-    { "label": "1 Team", "value": 1 },
+    // { "label": "1 Team", "value": 1 },
     { "label": "2 Teams", "value": 2 },
     { "label": "3 Teams", "value": 3 },
     { "label": "4 Teams", "value": 4 },
@@ -42,8 +43,10 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private _shared: SharedService
+    private _shared: SharedService,
+    private _env: EnvService
   ) { 
+    this.max_players = this._env.max_players;
     this._shared.full_reset();
   }
 
@@ -91,7 +94,7 @@ export class HomeComponent implements OnInit {
         alert('Team size cannot be greater than total players');
       } else {
         this._shared.globalPlayers = this.randomize_order_and_split_into_teams(final_players, this.shuffle);
-        // console.log(this._shared.globalPlayers);
+        console.log(this._shared.globalPlayers);debugger
         this._router.navigate(['./game']);
       }
     }
@@ -125,6 +128,7 @@ export class HomeComponent implements OnInit {
 
     // first player from random order gets the first turn
     for(var i=0; i<final_teams.length; i++) {
+      final_teams[i]['alias'] = "Team "+(i+1);
       final_teams[i]['turn'] = false;
     }
     final_teams[0]['turn'] = true;

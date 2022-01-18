@@ -45,4 +45,8 @@ export class ScoreComponent implements OnInit {
     return this.score_board[this.current_player_index]['name'];
   }
 
+  get_current_player_alias() {
+    return this.score_board[this.current_player_index]['alias'];
+  }
+
 }
