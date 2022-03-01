@@ -166,7 +166,7 @@ export class SharedService {
         },
         {
           points: 800,
-          question: "Which of the following games does not have a billion downloads on google play store?",
+          question: "Which of the following games does NOT have a billion downloads on google play store?",
           type: "MCQ", // MCQ / Text / 
           choices: ["Subway Surfers", "Candy Crush Saga", "Temple Run", "Free Fire"],
           answer: "Temple Run",

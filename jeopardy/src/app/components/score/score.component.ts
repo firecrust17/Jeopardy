@@ -49,4 +49,17 @@ export class ScoreComponent implements OnInit {
     return this.score_board[this.current_player_index]['alias'];
   }
 
+  get_high_scorer(){
+    var max_score_index = 0;
+    var max_score = 0;
+    for(var i=0; i<this.score_board.length; i++) {
+      if(this.score_board[i].score > max_score){
+        max_score = this.score_board[i].score;
+        max_score_index = i;
+      }
+    }
+
+    return this.score_board[max_score_index];
+  }
+
 }

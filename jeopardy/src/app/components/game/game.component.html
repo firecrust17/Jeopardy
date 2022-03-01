@@ -103,7 +103,7 @@
                             <div class="col-4">
                                 <!-- <button [disabled]="!current_question.answered_by || 1" class="btn btn-secondary" (click)="close_modal()">Close</button> -->
                                 <button [disabled]="!question_complete" class="btn btn-success float-right"
-                                *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] == null"
+                                *ngIf="false && question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] == null"
                                 (click)="close_modal()">Next</button>
                                 <button class="btn btn-success float-right"
                                 *ngIf="question_bank[curr_cat_idx]['questions'][curr_que_idx]['was_correct'] != null"
@@ -111,6 +111,23 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="winner">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b>GAME OVER!!!</b>
+                </div>
+                <div class="modal-body">
+                    
+                    <h2>Congratulation.</h2>
+                    <br>
+                    <h3><b>{{winner_name}}</b> has won the game!!!</h3>
 
                 </div>
             </div>

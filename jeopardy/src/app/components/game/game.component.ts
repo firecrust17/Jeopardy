@@ -23,6 +23,7 @@ export class GameComponent implements OnInit {
   interval: any;
   time_left = 0;
   failed_attempt = false;
+  winner_name = '';
   
   @ViewChild(ScoreComponent) score!: ScoreComponent;
 
@@ -119,6 +120,24 @@ export class GameComponent implements OnInit {
 
   close_modal() {
     $('#currentQuestion').modal('hide');
+    this.announce_winner();
+  }
+
+  announce_winner(){
+    var game_complete = true;
+
+    for(var i=0; i<this.question_bank.length; i++){
+      for(var j=0; j<this.question_bank[i].questions.length; j++){
+        if(this.question_bank[i].questions[j].was_correct == null) {
+          game_complete = false;
+        }
+      }
+    }
+
+    if (game_complete){
+      this.winner_name = this.score.get_high_scorer().alias;
+      $('#winner').modal('show');
+    }
   }
 
 }
